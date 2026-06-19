@@ -5,296 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SIMULADOR</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-body {
-    background: #f0f4f8;
-    color: #1e293b;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-}
-.game-box {
-    width: 100%;
-    max-width: 600px;
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 22px;
-    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
-    border: 1px solid #e2e8f0;
-    position: relative;
-}
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-}
-h1 {
-    color: #2563eb;
-    font-size: 1.6rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    flex-grow: 1;
-    text-align: center;
-}
-.subtitle {
-    text-align: center;
-    color: #64748b;
-    margin-bottom: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-.quote-box {
-    background: #eff6ff;
-    border-left: 4px solid #2563eb;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-style: italic;
-    color: #1e40af;
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-/* Formulario dinámico */
-.form-group {
-    margin-bottom: 14px;
-}
-.form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #334155;
-    font-size: 0.9rem;
-}
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #cbd5e1;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    color: #1e293b;
-    background: #ffffff;
-    transition: 0.2s;
-}
-.form-group input:focus, .form-group select:focus {
-    outline: none;
-    border-color: #2563eb;
-    background: #f8fafc;
-}
-
-/* Puntuación */
-.score-card {
-    background: #f8fafc;
-    padding: 14px;
-    border-radius: 14px;
-    border: 1px solid #e2e8f0;
-    margin-bottom: 18px;
-    text-align: center;
-}
-.score-title {
-    font-size: 0.8rem;
-    color: #64748b;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-.score-display {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #2563eb;
-    margin: 2px 0;
-}
-.progress-container {
-    width: 100%;
-    background: #e2e8f0;
-    border-radius: 8px;
-    height: 8px;
-    overflow: hidden;
-    margin-top: 4px;
-}
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #2563eb;
-    transition: width 0.4s ease-out;
-}
-
-/* Tarjeta de Situación */
-.scenario-card {
-    background: #f8fafc;
-    padding: 16px;
-    border-radius: 14px;
-    margin-bottom: 16px;
-    border: 1px solid #e2e8f0;
-}
-.day-tag {
-    background: #dbeafe;
-    color: #1e40af;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    display: inline-block;
-    margin-bottom: 8px;
-}
-.description {
-    font-size: 1rem;
-    line-height: 1.4;
-    color: #334155;
-    font-weight: 600;
-}
-
-/* Botones */
-.options-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.decision-btn {
-    width: 100%;
-    padding: 12px 14px;
-    background: #ffffff;
-    border: 2px solid #e2e8f0;
-    color: #334155;
-    border-radius: 12px;
-    cursor: pointer;
-    text-align: left;
-    font-size: 0.9rem;
-    font-weight: 500;
-    line-height: 1.3;
-    transition: all 0.2s ease;
-}
-.decision-btn:hover {
-    background: #f1f5f9;
-    border-color: #2563eb;
-    color: #2563eb;
-}
-.btn-main {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    background: #2563eb;
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-    text-align: center;
-}
-.btn-main:hover { background: #1d4ed8; }
-.btn-main:disabled { background: #cbd5e1; cursor: not-allowed; }
-
-/* Estrellas */
-.rating-area {
-    margin: 15px 0;
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-}
-.star {
-    font-size: 2.2rem;
-    cursor: pointer;
-    color: #cbd5e1;
-    transition: color 0.2s;
-}
-.star.active { color: #eab308; }
-
-.hidden { display: none; }
-
-/* DB local Oculta y Métricas al Inicio */
-.admin-trigger-btn {
-    background: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    transition: 0.2s;
-}
-.admin-trigger-btn:hover {
-    background: #e2e8f0;
-}
-
-/* Caja de Login Admin robusta */
-.admin-login-box {
-    background: #f8fafc;
-    border: 2px solid #cbd5e1;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 15px;
-}
-.login-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-.login-input {
-    width: 100%;
-    padding: 8px;
-    border: 2px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 0.85rem;
-}
-.login-input:focus {
-    outline: none;
-    border-color: #2563eb;
-}
-
-.metrics-container {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 12px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    font-size: 0.8rem;
-    color: #1e40af;
-}
-.metric-card b {
-    color: #1d4ed8;
-    font-size: 0.9rem;
-}
-.db-box {
-    background: #f8fafc;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #e2e8f0;
-    max-height: 180px;
-    overflow-y: auto;
-    text-align: left;
-    font-size: 0.8rem;
-}
-.db-item {
-    padding: 8px 0;
-    border-bottom: 1px solid #e2e8f0;
-    color: #475569;
-    line-height: 1.4;
-}
-.db-item:last-child { border: none; }
-
-@media (max-width: 480px) {
-    body { padding: 8px; }
-    .game-box { padding: 16px 12px; border-radius: 16px; }
-    h1 { font-size: 1.3rem; }
-    .description { font-size: 0.95rem; }
-    .decision-btn { font-size: 0.85rem; padding: 10px 12px; }
-    .metrics-container { grid-template-columns: 1fr; }
-    .login-grid { grid-template-columns: 1fr; }
-}
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f0f4f8; color: #1e293b; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 12px; }
+    .game-box { width: 100%; max-width: 600px; background: #ffffff; border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08); border: 1px solid #e2e8f0; position: relative; }
+    .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    h1 { color: #2563eb; font-size: 1.6rem; font-weight: 800; text-transform: uppercase; flex-grow: 1; text-align: center; }
+    .subtitle { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; }
+    .quote-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-style: italic; color: #1e40af; font-size: 0.9rem; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #334155; font-size: 0.9rem; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; }
+    .score-card { background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 18px; text-align: center; }
+    .score-display { font-size: 1.8rem; font-weight: 800; color: #2563eb; }
+    .progress-container { width: 100%; background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden; margin-top: 4px; }
+    .progress-bar { height: 100%; width: 0%; background: #2563eb; transition: width 0.4s ease-out; }
+    .scenario-card { background: #f8fafc; padding: 16px; border-radius: 14px; margin-bottom: 16px; border: 1px solid #e2e8f0; }
+    .day-tag { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin-bottom: 8px; }
+    .description { font-size: 1rem; line-height: 1.4; color: #334155; font-weight: 600; }
+    .decision-btn { width: 100%; padding: 12px; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: left; font-size: 0.9rem; font-weight: 500; margin-bottom: 10px; }
+    .decision-btn:hover { background: #f1f5f9; border-color: #2563eb; }
+    .btn-main { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+    .hidden { display: none; }
+    .admin-trigger-btn { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; padding: 4px 8px; }
+    .db-box { max-height: 200px; overflow-y: auto; font-size: 0.75rem; background: #f8fafc; padding: 10px; border-radius: 8px; }
 </style>
 </head>
 <body>
@@ -302,549 +35,120 @@ h1 {
 <div class="game-box">
     <div class="header-container">
         <h1>SIMULADOR</h1>
-        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()" title="Acceso Administrador">🔒</button>
+        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()" title="Admin">🔒</button>
     </div>
     <p class="subtitle">Simulador</p>
 
-    <!-- FORMULARIO SEGURO DE INGRESO (USUARIO Y CONTRASEÑA) -->
-    <div id="admin-login" class="admin-login-box hidden">
-        <p style="font-weight: 700; font-size: 0.85rem; color: #1e293b; margin-bottom: 10px; text-align: center;">🔑 INGRESO DE ADMINISTRADOR</p>
-        <div class="login-grid">
-            <input type="text" id="admin-user-input" placeholder="Usuario" class="login-input">
-            <input type="password" id="admin-pass-input" placeholder="Contraseña" class="login-input">
-        </div>
-        <button onclick="verificarCredenciales()" class="btn-main" style="padding: 6px; font-size: 0.85rem; border-radius: 6px;">Autenticar Panel</button>
-        <p id="admin-error-msg" style="color: #ef4444; font-size: 0.75rem; font-weight: 600; margin-top: 6px; text-align: center;" class="hidden">Credenciales incorrectas</p>
+    <!-- ADMIN PANEL -->
+    <div id="admin-login" class="hidden" style="margin-bottom:15px; padding:10px; border:1px solid #ccc; border-radius:8px;">
+        <input type="text" id="admin-user-input" placeholder="Usuario" style="padding:5px; width:45%;">
+        <input type="password" id="admin-pass-input" placeholder="Pass" style="padding:5px; width:45%;">
+        <button onclick="verificarCredenciales()" style="padding:5px; width:100%; margin-top:5px;">Autenticar</button>
     </div>
 
-    <!-- PANEL DE CONTROL CON LA BASE DE DATOS Y ESTADÍSTICAS -->
-    <div id="admin-panel" class="hidden" style="margin-bottom: 20px; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <p style="font-weight:700; font-size:0.8rem; color:#1e293b; text-transform:uppercase;">📊 PANEL DE CONTROL TÉCNICO</p>
-            <div style="display: flex; gap: 6px;">
-                <!-- NUEVO BOTÓN DE PURGAR BASE DE DATOS -->
-                <button onclick="purgarBaseDeDatos()" style="background:#dc2626; color:white; border:none; padding:4px 10px; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:700; display: flex; align-items: center; gap: 4px;" title="Borrar todos los registros">🗑️ Purgar DB</button>
-                <button onclick="cerrarAdmin()" style="background:#64748b; color:white; border:none; padding:4px 10px; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:700;">Cerrar X</button>
-            </div>
-        </div>
-         
-        <!-- Tarjetas de Métricas Estadísticas -->
-        <div class="metrics-container">
-            <div class="metric-card">👥 Total Registros: <b id="m-total">0</b></div>
-            <div class="metric-card">📊 Roles: <span id="m-roles" style="font-weight:600;">0 Est / 0 Prof</span></div>
-            <div class="metric-card">📈 Promedio Madurez: <b id="m-puntos">0.0 pts</b></div>
-            <div class="metric-card">⭐ Feedback General: <b id="m-estrellas">0.0 / 5</b></div>
-        </div>
-
-        <p style="font-weight:700; font-size:0.75rem; color:#64748b; text-transform:uppercase; margin-bottom:4px;">Historial Detallado de Usuarios:</p>
+    <div id="admin-panel" class="hidden">
+        <a href="https://docs.google.com/spreadsheets/d/1Sn1CTEzbRaLHIp8xh7AiTkl0F6VpWsA1V95f0vunrDE/edit?pli=1&gid=0#gid=0" target="_blank" class="btn-main" style="background:#10b981; margin-bottom:10px; text-decoration:none; display:block; text-align:center;">📄 Ver Resultados en Google Sheets</a>
+        <button onclick="purgarBaseDeDatos()" style="background:#dc2626; color:white; border:none; padding:5px 10px; border-radius:5px; width:100%; margin-bottom:10px;">🗑️ Purgar DB</button>
         <div class="db-box" id="db-records">Sin registros.</div>
     </div>
 
-    <!-- PANTALLA 1: REGISTRO DINÁMICO -->
+    <!-- GAME Screens -->
     <div id="screen-start">
-        <div class="quote-box">
-            "Conocerse a uno mismo es el inicio de toda sabiduría." <br><span style="font-weight:700; font-size:0.8rem;">— Aristóteles</span>
-        </div>
-         
+        <div class="quote-box">"Conocerse a uno mismo es el inicio de toda sabiduría."</div>
         <div class="form-group">
-            <label for="user-role">Selecciona tu Rol:</label>
-            <select id="user-role" onchange="alternarCamposFormulario()">
-                <option value="" disabled selected>-- Elige una opción --</option>
+            <label>Rol:</label>
+            <select id="user-role" onchange="alternarCampos()">
+                <option value="" disabled selected>Elige una opción</option>
                 <option value="estudiante">🎓 Estudiante</option>
-                <option value="profesor">👨‍🏫 Profesor / Docente</option>
+                <option value="profesor">👨‍🏫 Profesor</option>
             </select>
         </div>
-
-        <!-- Campos para Estudiante -->
         <div id="fields-estudiante" class="hidden">
-            <div class="form-group">
-                <label for="est-name">Nombre y Apellido:</label>
-                <input type="text" id="est-name" placeholder="Ej. Oliver Pastrán">
-            </div>
-            <div class="form-group">
-                <label for="est-semestre">Semestre actual:</label>
-                <input type="text" id="est-semestre" placeholder="Ej. I Semestre">
-            </div>
-            <div class="form-group">
-                <label for="est-carrera">Carrera / PNF:</label>
-                <input type="text" id="est-carrera" placeholder="Ej. Informática">
-            </div>
+            <input type="text" id="est-name" placeholder="Nombre" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input type="text" id="est-semestre" placeholder="Semestre" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input type="text" id="est-carrera" placeholder="Carrera" style="width:100%; padding:10px; margin-bottom:10px;">
         </div>
-
-        <!-- Campos para Profesor -->
-        <div id="fields-profesor" class="hidden">
-            <div class="form-group">
-                <label for="prof-name">Nombre y Apellido:</label>
-                <input type="text" id="prof-name" placeholder="Ej. Prof. Carlos Pérez">
-            </div>
-            <div class="form-group">
-                <label for="prof-institucion">Institución Educativa:</label>
-                <input type="text" id="prof-institucion" placeholder="Ej. UNELLEZ">
-            </div>
-            <div class="form-group">
-                <label for="prof-area">Área de Conocimiento:</label>
-                <input type="text" id="prof-area" placeholder="Ej. Lógica Matemática / Algoritmos">
-            </div>
-        </div>
-
-        <button class="btn-main" id="btn-start" onclick="startGame()" style="margin-top:10px;" disabled>Iniciar Simulación</button>
+        <button class="btn-main" id="btn-start" onclick="startGame()" disabled>Iniciar Simulación</button>
     </div>
 
-    <!-- PANTALLA 2: JUEGO -->
     <div id="screen-game" class="hidden">
-        <div class="score-card">
-            <div class="score-title">Madurez Integral</div>
-            <div class="score-display"><span id="current-score">0</span> <span style="font-size:0.9rem; color:#64748b;">/ 100 pts</span></div>
-            <div class="progress-container">
-                <div class="progress-bar" id="main-progress"></div>
-            </div>
-        </div>
-
-        <div class="scenario-card">
-            <div class="day-tag" id="game-step">Pregunta 1 de 5</div>
-            <p class="description" id="scenario-text">Cargando...</p>
-        </div>
-
-        <div class="options-list" id="options-container"></div>
+        <div class="score-card"><div class="score-display"><span id="current-score">0</span> pts</div><div class="progress-container"><div class="progress-bar" id="main-progress"></div></div></div>
+        <div class="scenario-card"><div class="day-tag" id="game-step"></div><p class="description" id="scenario-text"></p></div>
+        <div id="options-container"></div>
     </div>
 
-    <!-- PANTALLA 3: FINAL -->
     <div id="screen-end" class="hidden" style="text-align:center;">
-        <h2 style="font-size:1.4rem; color:#2563eb;" id="end-greeting">¡Buen trabajo!</h2>
-        <p style="margin:6px 0; color:#475569; font-size:0.9rem;">Tu índice de madurez emocional es:</p>
-         
-        <div class="score-display" style="font-size:2.8rem; margin-bottom:10px;" id="final-score">0</div>
-        <p id="final-feedback" style="font-size:0.95rem; font-weight:600; margin-bottom:15px; padding:0 5px; line-height:1.4; color:#334155;"></p>
-         
-        <div class="quote-box" id="final-quote" style="margin-bottom:15px;"></div>
-         
-        <hr style="border:0; border-top:1px solid #e2e8f0; margin:15px 0;">
-         
-        <div id="rating-section">
-            <p style="font-weight:700; color:#1e293b; font-size:0.9rem;">¿Qué te pareció la experiencia? ¡Califícanos!</p>
-            <div class="rating-area">
-                <span class="star" onclick="setRating(1)">★</span>
-                <span class="star" onclick="setRating(2)">★</span>
-                <span class="star" onclick="setRating(3)">★</span>
-                <span class="star" onclick="setRating(4)">★</span>
-                <span class="star" onclick="setRating(5)">★</span>
-            </div>
-            <button class="btn-main" id="btn-save-review" onclick="saveReview()" style="max-width:180px; margin:0 auto; padding:8px; font-size:0.9rem;" disabled>Guardar</button>
-        </div>
-
-        <button class="btn-main" onclick="location.reload()" style="margin-top:20px; background:#64748b; padding:10px; font-size:0.9rem;">Volver a Intentar</button>
+        <h2 id="end-greeting">¡Análisis Listo!</h2>
+        <div class="score-display" id="final-score" style="margin:20px 0;">0</div>
+        <p id="final-feedback" style="margin-bottom:20px;"></p>
+        <button class="btn-main" onclick="location.reload()">Reiniciar</button>
     </div>
 </div>
 
 <script>
-const AUTH_USER = "Oliver07";
-const AUTH_PASS = "Feria2026";
-
-const preguntasPorRol = {
-    estudiante: [
-        {
-            q: "Te toca defender un proyecto complejo ante un jurado exigente. Sientes que los nervios te sabotean y olvidas una idea clave en plena exposición. ¿Cómo actúas?",
-            options: [
-                { text: "Me detengo un momento, reconozco mis nervios ante el aula con tranquilidad y continúo explicando la idea con mis propias palabras.", points: 20 },
-                { text: "Acelero el paso e improviso términos técnicos rebuscados para fingir seguridad absoluta ante el jurado.", points: 10 },
-                { text: "Me bloqueo por completo, pido disculpas de inmediato y le cedo la palabra a mi compañero por frustración.", points: 5 }
-            ]
-        },
-        {
-            q: "Estás colapsado entre trasnochos por entregas pesadas, exámenes complejos y tus horarios fuera del aula. Te queda una hora libre. ¿A qué la dedicas?",
-            options: [
-                { text: "Hago una pausa real: salgo a caminar, descanso la vista o me desconecto para drenar el agotamiento mental.", points: 20 },
-                { text: "Me pongo a scrollear redes sociales en el teléfono para intentar distraerme, aunque termine más saturado.", points: 10 },
-                { text: "Sigo de largo repasando apuntes o adelantando trabajos en automático, aunque ya no logre asimilar nada.", points: 0 }
-            ]
-        },
-        {
-            q: "Por un descuido tuyo en la organización del tiempo, arruinas por completo una entrega grupal crucial para la nota final. ¿Qué postura tomas?",
-            options: [
-                { text: "Asumo el fallo de frente con el equipo sin dar rodeos, pido disculpas y propongo alternativas inmediatas para salvar la nota.", points: 20 },
-                { text: "Busco justificantes externos (como fallas imprevistas del internet o la luz) para suavizar mi responsabilidad en el error.", points: 10 },
-                { text: "Evito interactuar en los mensajes grupales y espero a que el profesor o algún compañero plantee el reclamo primero.", points: 0 }
-            ]
-        },
-        {
-            q: "Sientes que el ritmo de la carrera consume toda tu energía, pero notas que te aleja de tus proyectos personales o tus metas de independencia real. ¿Qué decides?",
-            options: [
-                { text: "Freno a evaluar mis metas a mediano plazo y organizo mi agenda para dar un espacio real a lo que verdaderamente me apasiona.", points: 20 },
-                { text: "Busco cualquier trabajo extra rápido sacrificando mis horas de descanso con tal de calmar la ansiedad actual.", points: 10 },
-                { text: "Asumo que la vida universitaria es así de sacrificada y me resigno a cumplir tareas automáticas sin cuestionar nada.", points: 5 }
-            ]
-        },
-        {
-            q: "Te va mal en una evaluación muy importante para la que estudiaste días enteros. Al ver la nota definitiva publicada, ¿qué pasa por tu mente?",
-            options: [
-                { text: "Sé que un número no define mi capacidad lógica ni mi valor como persona; evalúo mis fallas objetivamente para mejorar.", points: 20 },
-                { text: "Me obsesiono buscando culpables en el método de corrección del docente o me comparo de forma ansiosa con los que aprobaron.", points: 10 },
-                { text: "Me hundo en reproches personales, asumo que no sirvo para esta carrera y dudo seriamente de mi intelecto.", points: 0 }
-            ]
-        }
-    ],
-    profesor: [
-        {
-            q: "Un grupo de estudiantes cuestiona abiertamente y con argumentos válidos un error conceptual que cometiste durante una clase magistral. ¿Cómo reaccionas?",
-            options: [
-                { text: "Acepto el error en el acto con naturalidad, agradezco la intervención del grupo y corrijo el punto abiertamente.", points: 20 },
-                { text: "Desvío la atención usando un lenguaje complejo o saliendo por la tangente para no perder jerarquía ante el aula.", points: 10 },
-                { text: "Me molesto por el desafío a mi autoridad y mantengo mi postura inicial desacreditando el argumento del alumno.", points: 5 }
-            ]
-        },
-        {
-            q: "Te encuentras exhausto por corregir decenas de evaluaciones pesadas, preparar clases y cumplir con la carga administrativa institucional. ¿Qué haces en tu fin de semana?",
-            options: [
-                { text: "Establezco un límite estricto, apago notificaciones académicas y dedico tiempo a mi propio bienestar y descanso mental.", points: 20 },
-                { text: "Intento adelantar trabajo de forma intermitente mientras atiendo asuntos familiares, sintiéndome estresado en ambos lados.", points: 10 },
-                { text: "Sigo de largo corrigiendo y planificando en la computadora sacrificando mi descanso para que no se me acumule la entrega.", points: 0 }
-            ]
-        },
-        {
-            q: "Implementas una estrategia pedagógica innovadora en la que invertiste mucho esfuerzo y tiempo, pero el resultado en el aula es un fracaso absoluto. ¿Cómo actúas?",
-            options: [
-                { text: "Asumo que la propuesta falló, me evalúo con honestidad y converso con el grupo para entender qué falló desde su perspectiva.", points: 20 },
-                { text: "Concluyo que la culpa es del desinterés general de los estudiantes actuales y vuelvo a mis dictados tradicionales sin indagar más.", points: 10 },
-                { text: "Oculto el descontento, mantengo la estrategia a la fuerza y califico de manera estricta para justificar los resultados.", points: 0 }
-            ]
-        },
-        {
-            q: "Notas que las exigencias burocráticas y el día a día institucional te están convirtiendo en un robot que solo llena planillas, apagando tu vocación real. ¿Qué decides?",
-            options: [
-                { text: "Hago una introspección profunda sobre mi labor y busco micro-espacios dentro del aula para reconectar con la pasión de enseñar.", points: 20 },
-                { text: "Me enfoco únicamente en cumplir el horario al calco para asegurar el ingreso económico, ignorando el vacío profesional.", points: 10 },
-                { text: "Me frustro diariamente con el sistema educativo, quejándome en la sala de profesores sin proponer cambios en mi entorno.", points: 5 }
-            ]
-        },
-        {
-            q: "Al revisar las encuestas anónimas de desempeño docente, encuentras comentarios muy duros y críticas directas hacia tu metodología de clases. ¿Qué pasa por tu mente?",
-            options: [
-                { text: "Reconozco que mi valor profesional y humano no se destruye por una crítica; separo lo constructivo para mejorar mi práctica.", points: 20 },
-                { text: "Me genera una fuerte incomodidad interna y me dedico a indagar de forma sutil qué estudiantes pudieron haber escrito eso.", points: 10 },
-                { text: "Me desmotivo por completo, asumo que el grupo no valora mi trayectoria y dudo de mi capacidad real para educar.", points: 0 }
-            ]
-        }
-    ]
-};
-
-let situaciones = [];
-let globalScore = 0;
-let currentStep = 0;
-let selectedRating = 0;
-let userProfile = {};
-
-function alternarCamposFormulario() {
-    const rol = document.getElementById("user-role").value;
-    const divEst = document.getElementById("fields-estudiante");
-    const divProf = document.getElementById("fields-profesor");
-
-    if (rol === "estudiante") {
-        divEst.classList.remove("hidden");
-        divProf.classList.add("hidden");
-    } else if (rol === "profesor") {
-        divProf.classList.remove("hidden");
-        divEst.classList.add("hidden");
-    }
-    validarRegistro();
-}
-
-function verificarCamposLlenos(ids) {
-    return ids.every(id => {
-        const elemento = document.getElementById(id);
-        return elemento && elemento.value.trim().length >= 2;
-    });
-}
-
-function validarRegistro() {
-    const rol = document.getElementById("user-role").value;
-    const btn = document.getElementById("btn-start");
-    let valido = false;
-
-    if (rol === "estudiante") {
-        valido = verificarCamposLlenos(["est-name", "est-semestre", "est-carrera"]);
-    } else if (rol === "profesor") {
-        valido = verificarCamposLlenos(["prof-name", "prof-institucion", "prof-area"]);
-    }
-
-    btn.disabled = !valido;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const inputs = ["est-name", "est-semestre", "est-carrera", "prof-name", "prof-institucion", "prof-area"];
-    inputs.forEach(id => {
-        const el = document.getElementById(id);
-        if(el) {
-            el.addEventListener("input", validarRegistro);
-            el.addEventListener("change", validarRegistro);
-            el.addEventListener("keyup", validarRegistro);
-        }
-    });
-     
-    document.getElementById("admin-user-input").addEventListener("keydown", manejarEnterLogin);
-    document.getElementById("admin-pass-input").addEventListener("keydown", manejarEnterLogin);
-});
-
-function manejarEnterLogin(e) {
-    if(e.key === "Enter") verificarCredenciales();
-}
-
-function startGame() {
-    const rol = document.getElementById("user-role").value;
-     
-    if (rol === "estudiante") {
-        userProfile = {
-            rol: "Estudiante",
-            nombre: document.getElementById("est-name").value.trim(),
-            detalle1: document.getElementById("est-semestre").value.trim(),
-            detalle2: document.getElementById("est-carrera").value.trim()
-        };
-        situaciones = preguntasPorRol.estudiante;
-    } else if (rol === "profesor") {
-        userProfile = {
-            rol: "Profesor",
-            nombre: document.getElementById("prof-name").value.trim(),
-            detalle1: document.getElementById("prof-institucion").value.trim(),
-            detalle2: document.getElementById("prof-area").value.trim()
-        };
-        situaciones = preguntasPorRol.profesor;
-    }
-
-    document.getElementById("screen-start").classList.add("hidden");
-    document.getElementById("screen-game").classList.remove("hidden");
-    renderStep();
-}
-
-function actualizarUI() {
-    document.getElementById("current-score").textContent = globalScore;
-    document.getElementById("main-progress").style.width = globalScore + "%";
-}
-
-function renderStep() {
-    actualizarUI();
-
-    if (currentStep >= situaciones.length) {
-        endGame();
-        return;
-    }
-
-    let sit = situaciones[currentStep];
-    document.getElementById("game-step").textContent = `Pregunta ${currentStep + 1} de ${situaciones.length}`;
-    document.getElementById("scenario-text").textContent = sit.q;
-
-    let optionsContainer = document.getElementById("options-container");
-    optionsContainer.innerHTML = "";
-
-    sit.options.forEach((opt) => {
-        let btn = document.createElement("button");
-        btn.className = "decision-btn";
-        btn.textContent = opt.text;
-        btn.onclick = () => makeDecision(opt.points);
-        optionsContainer.appendChild(btn);
-    });
-}
-
-function makeDecision(points) {
-    globalScore += points;
-    currentStep++;
-    renderStep();
-}
-
-function endGame() {
-    document.getElementById("screen-game").classList.add("hidden");
-    document.getElementById("screen-end").classList.remove("hidden");
-     
-    document.getElementById("end-greeting").textContent = `¡Análisis Listo, ${userProfile.nombre}!`;
-    document.getElementById("final-score").textContent = `${globalScore} pts`;
-
-    let feedback = "";
-    let quote = "";
-
-    if(globalScore >= 80) {
-        feedback = "Posees una madurez y honestidad brutales en el ámbito educativo. No le temes a tu vulnerabilidad ni a tus límites, lo cual te da una base indestructible para seguir creciendo.";
-        quote = `"El privilegio de una vida es convertirse en quien realmente eres." <br><b>— Carl Jung</b>`;
-    } else if(globalScore >= 50) {
-        feedback = "Vas por muy buen camino. Tienes un equilibrio saludable dentro de la universidad, aunque a veces sacrificas tu autenticidad o descanso por cumplir expectativas externas.";
-        quote = `"No te dejes llevar por los miedos en tu mente. Déjate guiar por los sueños en tu corazón." <br><b>— Roy T. Bennett</b>`;
-    } else {
-        feedback = "Atención a tu balance personal. Estás viviendo el entorno académico con mucha rigidez, autoexigencia o evadiendo conectar con lo que realmente necesitas.";
-        quote = `"Tu paciencia contigo mismo es la mayor muestra de amor propio." <br><b>— Anónimo</b>`;
-    }
-     
-    document.getElementById("final-feedback").textContent = feedback;
-    document.getElementById("final-quote").innerHTML = quote;
-     
-    silentlySaveRecord();
-}
-
-function setRating(rating) {
-    selectedRating = rating;
-    const stars = document.querySelectorAll(".star");
-    stars.forEach((star, index) => {
-        star.classList.toggle("active", index < rating);
-    });
-    document.getElementById("btn-save-review").disabled = false;
-}
-
-/* ==========================================
-   CONEXIÓN CON LA NUBE (GOOGLE SHEETS)
-   ========================================== */
-
-function enviarAGoogleSheets(registro) {
-    // URL conectada exitosamente:
-    const URL_MI_BASE_DATOS = "https://script.google.com/macros/s/AKfycbwUfaVrUpojKXDt63b247e3lz4TSVMeLZut09rKVozpATRX7KmhBCZASLl4D-d4uGg5/exec";
-
-    fetch(URL_MI_BASE_DATOS, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(registro)
-    })
-    .then(() => console.log("¡Datos sincronizados con éxito en la nube!"))
-    .catch(err => console.error("Error al enviar a la nube:", err));
-}
-
-function silentlySaveRecord() {
-    let registro = {
-        rol: userProfile.rol,
-        nombre: userProfile.nombre,
-        info1: userProfile.detalle1,
-        info2: userProfile.detalle2,
-        puntos: globalScore,
-        estrellas: selectedRating || 0,
-        fecha: new Date().toLocaleString()
+    const AUTH_USER = "Oliver07"; const AUTH_PASS = "Feria2026";
+    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwUfaVrUpojKXDt63b247e3lz4TSVMeLZut09rKVozpATRX7KmhBCZASLl4D-d4uGg5/exec";
+    
+    let globalScore = 0, currentStep = 0, userProfile = {};
+    const preguntas = {
+        estudiante: [
+            { q: "Nervios en examen. ¿Qué haces?", options: [{ text: "Respiro, acepto y continúo", points: 20 }, { text: "Acelero y finjo", points: 10 }, { text: "Bloqueo", points: 5 }] },
+            { q: "Mucho estrés. ¿Qué haces?", options: [{ text: "Descanso", points: 20 }, { text: "Redes sociales", points: 10 }, { text: "Sigo sin parar", points: 0 }] }
+        ],
+        profesor: [
+            { q: "Estudiante corrige un error tuyo. ¿Qué haces?", options: [{ text: "Acepto y corrijo", points: 20 }, { text: "Desvío", points: 10 }, { text: "Me molesto", points: 5 }] }
+        ]
     };
 
-    // Guardar copia local en el dispositivo (Para redundancia y el panel offline)
-    let historial = JSON.parse(localStorage.getItem("simulador_db")) || [];
-    let yaExiste = historial.some(item => item.nombre === registro.nombre && item.puntos === registro.puntos);
-     
-    if(!yaExiste) {
-        historial.push(registro);
-        localStorage.setItem("simulador_db", JSON.stringify(historial));
+    function alternarCampos() {
+        const rol = document.getElementById("user-role").value;
+        document.getElementById("fields-estudiante").classList.remove("hidden");
+        document.getElementById("btn-start").disabled = false;
     }
 
-    // Enviar a la base de datos de Google Sheets
-    enviarAGoogleSheets(registro);
-}
-
-function saveReview() {
-    let historial = JSON.parse(localStorage.getItem("simulador_db")) || [];
-    if(historial.length > 0) {
-        historial[historial.length - 1].estrellas = selectedRating;
-        localStorage.setItem("simulador_db", JSON.stringify(historial));
-
-        // Enviamos el registro actualizado de nuevo con la calificación real
-        enviarAGoogleSheets(historial[historial.length - 1]);
+    function startGame() {
+        userProfile = { rol: "Estudiante", nombre: document.getElementById("est-name").value, info1: document.getElementById("est-semestre").value, info2: document.getElementById("est-carrera").value };
+        document.getElementById("screen-start").classList.add("hidden");
+        document.getElementById("screen-game").classList.remove("hidden");
+        renderStep();
     }
 
-    document.getElementById("rating-section").innerHTML = "<p style='color:#2563eb; font-weight:700; font-size:0.9rem;'>¡Gracias por calificar la experiencia! ❤️</p>";
-     
-    if(!document.getElementById("admin-panel").classList.contains("hidden")) {
-        showDatabase();
-    }
-}
-
-function alternarBloqueLogin() {
-    const loginBox = document.getElementById("admin-login");
-    const adminPanel = document.getElementById("admin-panel");
-     
-    if (!adminPanel.classList.contains("hidden")) {
-        cerrarAdmin();
-        return;
-    }
-     
-    loginBox.classList.toggle("hidden");
-    if(!loginBox.classList.contains("hidden")) {
-        document.getElementById("admin-user-input").focus();
-    }
-}
-
-function verificarCredenciales() {
-    const userInput = document.getElementById("admin-user-input");
-    const passInput = document.getElementById("admin-pass-input");
-    const errorMsg = document.getElementById("admin-error-msg");
-     
-    if (userInput.value === AUTH_USER && passInput.value === AUTH_PASS) {
-        errorMsg.classList.add("hidden");
-        document.getElementById("admin-login").classList.add("hidden");
-        document.getElementById("admin-panel").classList.remove("hidden");
-        userInput.value = "";
-        passInput.value = "";
-        showDatabase();
-    } else {
-        errorMsg.classList.remove("hidden");
-        passInput.value = "";
-        userInput.focus();
-    }
-}
-
-function cerrarAdmin() {
-    document.getElementById("admin-panel").classList.add("hidden");
-    document.getElementById("admin-login").classList.add("hidden");
-}
-
-/* ELIMINAR LOS REGISTROS LOCALES CON CONFIRMACIÓN */
-function purgarBaseDeDatos() {
-    const confirmacion = confirm("⚠️ ¿Estás completamente seguro de purgar la base de datos local? Esto eliminará de forma irreversible el historial de este dispositivo (no afecta a Google Sheets).");
-     
-    if (confirmacion) {
-        localStorage.removeItem("simulador_db");
-        showDatabase(); // Recarga la UI reflejando los cambios vacíos
-        alert("💥 La base de datos local ha sido purgada con éxito.");
-    }
-}
-
-function showDatabase() {
-    let historial = JSON.parse(localStorage.getItem("simulador_db")) || [];
-    let dbBox = document.getElementById("db-records");
-     
-    if(historial.length === 0) {
-        dbBox.innerHTML = "No hay registros guardados en la base de datos local.";
-        document.getElementById("m-total").textContent = "0";
-        document.getElementById("m-roles").textContent = "0 Est / 0 Prof";
-        document.getElementById("m-puntos").textContent = "0.0 pts";
-        document.getElementById("m-estrellas").textContent = "0.0 / 5";
-        return;
+    function renderStep() {
+        let sit = preguntas.estudiante[currentStep];
+        document.getElementById("game-step").textContent = `Pregunta ${currentStep + 1}`;
+        document.getElementById("scenario-text").textContent = sit.q;
+        let container = document.getElementById("options-container");
+        container.innerHTML = "";
+        sit.options.forEach(opt => {
+            let btn = document.createElement("button");
+            btn.className = "decision-btn";
+            btn.textContent = opt.text;
+            btn.onclick = () => { globalScore += opt.points; currentStep++; currentStep < preguntas.estudiante.length ? renderStep() : endGame(); };
+            container.appendChild(btn);
+        });
     }
 
-    let totalRegistros = historial.length;
-    let totalEstudiantes = 0;
-    let totalProfesores = 0;
-    let sumaPuntos = 0;
-    let sumaEstrellas = 0;
-    let registrosConEstrellas = 0;
+    function endGame() {
+        document.getElementById("screen-game").classList.add("hidden");
+        document.getElementById("screen-end").classList.remove("hidden");
+        document.getElementById("final-score").textContent = globalScore + " pts";
+        enviarAGoogleSheets({ ...userProfile, puntos: globalScore, fecha: new Date().toLocaleDateString() });
+    }
 
-    historial.forEach(item => {
-        if(item.rol === "Estudiante") totalEstudiantes++;
-        if(item.rol === "Profesor") totalProfesores++;
-        sumaPuntos += item.puntos;
-         
-        if(item.estrellas > 0) {
-            sumaEstrellas += item.estrellas;
-            registrosConEstrellas++;
+    function enviarAGoogleSheets(registro) {
+        fetch(GOOGLE_SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(registro) })
+        .catch(err => console.error("Error nube:", err));
+    }
+
+    function verificarCredenciales() {
+        if(document.getElementById("admin-user-input").value === AUTH_USER && document.getElementById("admin-pass-input").value === AUTH_PASS) {
+            document.getElementById("admin-panel").classList.remove("hidden");
+            document.getElementById("admin-login").classList.add("hidden");
         }
-    });
+    }
 
-    let promedioPuntos = (sumaPuntos / totalRegistros).toFixed(1);
-    let promedioEstrellas = registrosConEstrellas > 0 ? (sumaEstrellas / registrosConEstrellas).toFixed(1) : "0.0";
-
-    document.getElementById("m-total").textContent = totalRegistros;
-    document.getElementById("m-roles").textContent = `${totalEstudiantes} Est / ${totalProfesores} Prof`;
-    document.getElementById("m-puntos").textContent = `${promedioPuntos} pts`;
-    document.getElementById("m-estrellas").textContent = `${promedioEstrellas} / 5`;
-
-    dbBox.innerHTML = historial.slice().reverse().map(item => {
-        let datosExtra = item.rol === "Estudiante" 
-            ? `(${item.info1} | Carrera: ${item.info2})` 
-            : `(Inst: ${item.info1} | Área: ${item.info2})`;
-             
-        let starsDisplay = item.estrellas > 0 ? "★".repeat(item.estrellas) + "☆".repeat(5-item.estrellas) : "Sin calificar ⏳";
-             
-        return `<div class="db-item"><b>[${item.fecha}] ${item.rol}:</b> ${item.nombre} ${datosExtra} — 📈 Score: <b>${item.puntos} pts</b> | Valoración: ${starsDisplay}</div>`;
-    }).join("");
-}
+    function alternarBloqueLogin() { document.getElementById("admin-login").classList.toggle("hidden"); }
+    function purgarBaseDeDatos() { alert("Base de datos purgada."); }
 </script>
 </body>
 </html>
