@@ -1,129 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIMULADOR</title>
-<style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #f0f4f8; color: #1e293b; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 12px; }
-    .game-box { width: 100%; max-width: 600px; background: #ffffff; border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08); border: 1px solid #e2e8f0; position: relative; }
-    .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-    h1 { color: #2563eb; font-size: 1.6rem; font-weight: 800; text-transform: uppercase; flex-grow: 1; text-align: center; }
-    .subtitle { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; }
-    .quote-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-style: italic; color: #1e40af; font-size: 0.9rem; }
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #334155; font-size: 0.9rem; }
-    .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; }
-    .score-card { background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 18px; text-align: center; }
-    .score-display { font-size: 1.8rem; font-weight: 800; color: #2563eb; }
-    .progress-container { width: 100%; background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden; margin-top: 4px; }
-    .progress-bar { height: 100%; width: 0%; background: #2563eb; transition: width 0.4s ease-out; }
-    .scenario-card { background: #f8fafc; padding: 16px; border-radius: 14px; margin-bottom: 16px; border: 1px solid #e2e8f0; }
-    .day-tag { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin-bottom: 8px; }
-    .description { font-size: 1rem; line-height: 1.4; color: #334155; font-weight: 600; }
-    .decision-btn { width: 100%; padding: 12px; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: left; font-size: 0.9rem; font-weight: 500; margin-bottom: 10px; }
-    .decision-btn:hover { background: #f1f5f9; border-color: #2563eb; }
-    .btn-main { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; }
-    .hidden { display: none; }
-    .admin-trigger-btn { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; padding: 4px 8px; }
-    .db-box { max-height: 200px; overflow-y: auto; font-size: 0.75rem; background: #f8fafc; padding: 10px; border-radius: 8px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMULADOR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
+        .game-box { width: 100%; max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08); border: 1px solid #e2e8f0; }
+        .btn-main { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; display: block; }
+        .decision-btn { width: 100%; padding: 12px; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: left; margin-bottom: 10px; transition: 0.2s; }
+        .decision-btn:hover { background: #f1f5f9; border-color: #2563eb; }
+        .hidden { display: none; }
+    </style>
 </head>
 <body>
 
 <div class="game-box">
-    <div class="header-container">
-        <h1>SIMULADOR</h1>
-        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()" title="Admin">🔒</button>
-    </div>
-    <p class="subtitle">Simulador</p>
-
-    <!-- ADMIN PANEL -->
-    <div id="admin-login" class="hidden" style="margin-bottom:15px; padding:10px; border:1px solid #ccc; border-radius:8px;">
-        <input type="text" id="admin-user-input" placeholder="Usuario" style="padding:5px; width:45%;">
-        <input type="password" id="admin-pass-input" placeholder="Pass" style="padding:5px; width:45%;">
-        <button onclick="verificarCredenciales()" style="padding:5px; width:100%; margin-top:5px;">Autenticar</button>
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold text-blue-600 uppercase">SIMULADOR</h1>
+        <button onclick="document.getElementById('admin-login').classList.toggle('hidden')" class="bg-slate-100 p-2 rounded-lg">🔒</button>
     </div>
 
-    <div id="admin-panel" class="hidden">
-        <a href="https://docs.google.com/spreadsheets/d/1Sn1CTEzbRaLHIp8xh7AiTkl0F6VpWsA1V95f0vunrDE/edit?pli=1&gid=0#gid=0" target="_blank" class="btn-main" style="background:#10b981; margin-bottom:10px; text-decoration:none; display:block; text-align:center;">📄 Ver Resultados en Google Sheets</a>
-        <button onclick="purgarBaseDeDatos()" style="background:#dc2626; color:white; border:none; padding:5px 10px; border-radius:5px; width:100%; margin-bottom:10px;">🗑️ Purgar DB</button>
-        <div class="db-box" id="db-records">Sin registros.</div>
+    <div id="admin-login" class="hidden mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+        <input type="text" id="admin-user" placeholder="Usuario" class="w-full p-2 mb-2 border rounded">
+        <input type="password" id="admin-pass" placeholder="Contraseña" class="w-full p-2 mb-2 border rounded">
+        <button onclick="verificarCredenciales()" class="w-full bg-blue-600 text-white p-2 rounded">Autenticar</button>
     </div>
 
-    <!-- GAME Screens -->
+    <div id="admin-panel" class="hidden text-center">
+        <a href="https://docs.google.com/spreadsheets/d/1Sn1CTEzbRaLHIp8xh7AiTkl0F6VpWsA1V95f0vunrDE/edit" target="_blank" class="btn-main bg-green-500 mb-4 no-underline">📄 Ver Resultados en Google Sheets</a>
+    </div>
+
     <div id="screen-start">
-        <div class="quote-box">"Conocerse a uno mismo es el inicio de toda sabiduría."</div>
-        <div class="form-group">
-            <label>Rol:</label>
-            <select id="user-role" onchange="alternarCampos()">
-                <option value="" disabled selected>Elige una opción</option>
-                <option value="estudiante">🎓 Estudiante</option>
-                <option value="profesor">👨‍🏫 Profesor</option>
-            </select>
-        </div>
+        <div class="bg-blue-50 p-4 border-l-4 border-blue-600 rounded mb-4 text-blue-900 italic text-sm">"Conocerse a uno mismo es el inicio de toda sabiduría."</div>
+        <select id="user-role" onchange="alternarCampos()" class="w-full p-3 border-2 rounded-lg mb-4">
+            <option value="" disabled selected>Elige una opción</option>
+            <option value="estudiante">🎓 Estudiante</option>
+            <option value="profesor">👨‍🏫 Profesor</option>
+        </select>
         <div id="fields-estudiante" class="hidden">
-            <input type="text" id="est-name" placeholder="Nombre" style="width:100%; padding:10px; margin-bottom:10px;">
-            <input type="text" id="est-semestre" placeholder="Semestre" style="width:100%; padding:10px; margin-bottom:10px;">
-            <input type="text" id="est-carrera" placeholder="Carrera" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input type="text" id="est-name" placeholder="Nombre" class="w-full p-3 border rounded-lg mb-2">
+            <input type="text" id="est-semestre" placeholder="Semestre" class="w-full p-3 border rounded-lg mb-2">
+            <input type="text" id="est-carrera" placeholder="Carrera" class="w-full p-3 border rounded-lg mb-4">
         </div>
         <button class="btn-main" id="btn-start" onclick="startGame()" disabled>Iniciar Simulación</button>
     </div>
 
     <div id="screen-game" class="hidden">
-        <div class="score-card"><div class="score-display"><span id="current-score">0</span> pts</div><div class="progress-container"><div class="progress-bar" id="main-progress"></div></div></div>
-        <div class="scenario-card"><div class="day-tag" id="game-step"></div><p class="description" id="scenario-text"></p></div>
+        <div class="bg-gray-100 p-4 rounded-xl mb-4 text-center">
+            <div id="current-score" class="text-3xl font-bold text-blue-600">0 pts</div>
+            <div class="w-full bg-gray-300 h-2 rounded-full mt-2"><div id="main-progress" class="h-full bg-blue-600 rounded-full" style="width:0%"></div></div>
+        </div>
+        <p class="text-lg font-semibold mb-4" id="scenario-text"></p>
         <div id="options-container"></div>
     </div>
 
-    <div id="screen-end" class="hidden" style="text-align:center;">
-        <h2 id="end-greeting">¡Análisis Listo!</h2>
-        <div class="score-display" id="final-score" style="margin:20px 0;">0</div>
-        <p id="final-feedback" style="margin-bottom:20px;"></p>
+    <div id="screen-end" class="hidden text-center">
+        <h2 class="text-xl font-bold mb-4">¡Análisis Listo!</h2>
+        <div id="final-score" class="text-4xl font-bold text-blue-600 mb-6">0 pts</div>
         <button class="btn-main" onclick="location.reload()">Reiniciar</button>
     </div>
 </div>
 
 <script>
     const AUTH_USER = "Oliver07"; const AUTH_PASS = "Feria2026";
-    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwUfaVrUpojKXDt63b247e3lz4TSVMeLZut09rKVozpATRX7KmhBCZASLl4D-d4uGg5/exec";
+    const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwUfaVrUpojKXDt63b247e3lz4TSVMeLZut09rKVozpATRX7KmhBCZASLl4D-d4uGg5/exec";
     
     let globalScore = 0, currentStep = 0, userProfile = {};
-    const preguntas = {
-        estudiante: [
-            { q: "Nervios en examen. ¿Qué haces?", options: [{ text: "Respiro, acepto y continúo", points: 20 }, { text: "Acelero y finjo", points: 10 }, { text: "Bloqueo", points: 5 }] },
-            { q: "Mucho estrés. ¿Qué haces?", options: [{ text: "Descanso", points: 20 }, { text: "Redes sociales", points: 10 }, { text: "Sigo sin parar", points: 0 }] }
-        ],
-        profesor: [
-            { q: "Estudiante corrige un error tuyo. ¿Qué haces?", options: [{ text: "Acepto y corrijo", points: 20 }, { text: "Desvío", points: 10 }, { text: "Me molesto", points: 5 }] }
-        ]
-    };
+    const preguntas = [
+        { q: "Nervios en examen. ¿Qué haces?", options: [{ text: "Respiro, acepto y continúo", points: 20 }, { text: "Acelero y finjo", points: 10 }, { text: "Bloqueo", points: 5 }] },
+        { q: "Mucho estrés. ¿Qué haces?", options: [{ text: "Descanso", points: 20 }, { text: "Redes sociales", points: 10 }, { text: "Sigo sin parar", points: 0 }] }
+    ];
 
-    function alternarCampos() {
-        const rol = document.getElementById("user-role").value;
-        document.getElementById("fields-estudiante").classList.remove("hidden");
-        document.getElementById("btn-start").disabled = false;
-    }
+    function alternarCampos() { document.getElementById("fields-estudiante").classList.remove("hidden"); document.getElementById("btn-start").disabled = false; }
 
     function startGame() {
-        userProfile = { rol: "Estudiante", nombre: document.getElementById("est-name").value, info1: document.getElementById("est-semestre").value, info2: document.getElementById("est-carrera").value };
+        userProfile = { rol: document.getElementById("user-role").value, nombre: document.getElementById("est-name").value, info1: document.getElementById("est-semestre").value, info2: document.getElementById("est-carrera").value };
         document.getElementById("screen-start").classList.add("hidden");
         document.getElementById("screen-game").classList.remove("hidden");
         renderStep();
     }
 
     function renderStep() {
-        let sit = preguntas.estudiante[currentStep];
-        document.getElementById("game-step").textContent = `Pregunta ${currentStep + 1}`;
+        if(currentStep >= preguntas.length) return endGame();
+        let sit = preguntas[currentStep];
         document.getElementById("scenario-text").textContent = sit.q;
+        document.getElementById("main-progress").style.width = (currentStep / preguntas.length) * 100 + "%";
         let container = document.getElementById("options-container");
         container.innerHTML = "";
         sit.options.forEach(opt => {
             let btn = document.createElement("button");
             btn.className = "decision-btn";
             btn.textContent = opt.text;
-            btn.onclick = () => { globalScore += opt.points; currentStep++; currentStep < preguntas.estudiante.length ? renderStep() : endGame(); };
+            btn.onclick = () => { globalScore += opt.points; currentStep++; renderStep(); };
             container.appendChild(btn);
         });
     }
@@ -132,23 +102,21 @@
         document.getElementById("screen-game").classList.add("hidden");
         document.getElementById("screen-end").classList.remove("hidden");
         document.getElementById("final-score").textContent = globalScore + " pts";
-        enviarAGoogleSheets({ ...userProfile, puntos: globalScore, fecha: new Date().toLocaleDateString() });
-    }
-
-    function enviarAGoogleSheets(registro) {
-        fetch(GOOGLE_SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" }, body: JSON.stringify(registro) })
-        .catch(err => console.error("Error nube:", err));
+        
+        fetch(URL_SHEETS, { 
+            method: "POST", 
+            mode: "no-cors", 
+            headers: { "Content-Type": "application/json" }, 
+            body: JSON.stringify({ ...userProfile, puntos: globalScore, fecha: new Date().toLocaleString() }) 
+        });
     }
 
     function verificarCredenciales() {
-        if(document.getElementById("admin-user-input").value === AUTH_USER && document.getElementById("admin-pass-input").value === AUTH_PASS) {
+        if(document.getElementById("admin-user").value === AUTH_USER && document.getElementById("admin-pass").value === AUTH_PASS) {
             document.getElementById("admin-panel").classList.remove("hidden");
             document.getElementById("admin-login").classList.add("hidden");
         }
     }
-
-    function alternarBloqueLogin() { document.getElementById("admin-login").classList.toggle("hidden"); }
-    function purgarBaseDeDatos() { alert("Base de datos purgada."); }
 </script>
 </body>
 </html>
