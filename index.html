@@ -301,10 +301,10 @@ h1 {
 
 <div class="game-box">
     <div class="header-container">
-        <h1>El Código Humano</h1>
-        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()" title="Acceso Administrador">🔒</button>
+        <h1>SIMULADOR</h1>
+        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()" title="Acceso Administratrador">🔒</button>
     </div>
-    <p class="subtitle">Simulador de Desarrollo Emocional</p>
+    <p class="subtitle">Simulador</p>
 
     <!-- FORMULARIO SEGURO DE INGRESO (USUARIO Y CONTRASEÑA) -->
     <div id="admin-login" class="admin-login-box hidden">
@@ -327,7 +327,7 @@ h1 {
                 <button onclick="cerrarAdmin()" style="background:#64748b; color:white; border:none; padding:4px 10px; border-radius:6px; font-size:0.75rem; cursor:pointer; font-weight:700;">Cerrar X</button>
             </div>
         </div>
-        
+         
         <!-- Tarjetas de Métricas Estadísticas -->
         <div class="metrics-container">
             <div class="metric-card">👥 Total Registros: <b id="m-total">0</b></div>
@@ -345,7 +345,7 @@ h1 {
         <div class="quote-box">
             "Conocerse a uno mismo es el inicio de toda sabiduría." <br><span style="font-weight:700; font-size:0.8rem;">— Aristóteles</span>
         </div>
-        
+         
         <div class="form-group">
             <label for="user-role">Selecciona tu Rol:</label>
             <select id="user-role" onchange="alternarCamposFormulario()">
@@ -412,14 +412,14 @@ h1 {
     <div id="screen-end" class="hidden" style="text-align:center;">
         <h2 style="font-size:1.4rem; color:#2563eb;" id="end-greeting">¡Buen trabajo!</h2>
         <p style="margin:6px 0; color:#475569; font-size:0.9rem;">Tu índice de madurez emocional es:</p>
-        
+         
         <div class="score-display" style="font-size:2.8rem; margin-bottom:10px;" id="final-score">0</div>
         <p id="final-feedback" style="font-size:0.95rem; font-weight:600; margin-bottom:15px; padding:0 5px; line-height:1.4; color:#334155;"></p>
-        
+         
         <div class="quote-box" id="final-quote" style="margin-bottom:15px;"></div>
-        
+         
         <hr style="border:0; border-top:1px solid #e2e8f0; margin:15px 0;">
-        
+         
         <div id="rating-section">
             <p style="font-weight:700; color:#1e293b; font-size:0.9rem;">¿Qué te pareció la experiencia? ¡Califícanos!</p>
             <div class="rating-area">
@@ -445,7 +445,7 @@ const preguntasPorRol = {
         {
             q: "Te toca defender un proyecto complejo ante un jurado exigente. Sientes que los nervios te sabotean y olvidas una idea clave en plena exposición. ¿Cómo actúas?",
             options: [
-                { text: "Me detengo un momento, reconozco mis nervios ante el aula con tranquilidad y continúo explicando la idea con mis propias palabras.", points: 20 },
+                { text: "Me detengo un momento, reconozco mis nervios ante el aula con tranquilidad and continúo explicando la idea con mis propias palabras.", points: 20 },
                 { text: "Acelero el paso e improviso términos técnicos rebuscados para fingir seguridad absoluta ante el jurado.", points: 10 },
                 { text: "Me bloqueo por completo, pido disculpas de inmediato y le cedo la palabra a mi compañero por frustración.", points: 5 }
             ]
@@ -579,18 +579,18 @@ document.addEventListener("DOMContentLoaded", () => {
             el.addEventListener("keyup", validarRegistro);
         }
     });
-    
+     
     document.getElementById("admin-user-input").addEventListener("keydown", manejarEnterLogin);
     document.getElementById("admin-pass-input").addEventListener("keydown", manejarEnterLogin);
 });
 
 function manejarEnterLogin(e) {
-    if(e.key === "Enter") verificarCredentials();
+    if(e.key === "Enter") verificarCredenciales();
 }
 
 function startGame() {
     const rol = document.getElementById("user-role").value;
-    
+     
     if (rol === "estudiante") {
         userProfile = {
             rol: "Estudiante",
@@ -652,7 +652,7 @@ function makeDecision(points) {
 function endGame() {
     document.getElementById("screen-game").classList.add("hidden");
     document.getElementById("screen-end").classList.remove("hidden");
-    
+     
     document.getElementById("end-greeting").textContent = `¡Análisis Listo, ${userProfile.nombre}!`;
     document.getElementById("final-score").textContent = `${globalScore} pts`;
 
@@ -669,10 +669,10 @@ function endGame() {
         feedback = "Atención a tu balance personal. Estás viviendo el entorno académico con mucha rigidez, autoexigencia o evadiendo conectar con lo que realmente necesitas.";
         quote = `"Tu paciencia contigo mismo es la mayor muestra de amor propio." <br><b>— Anónimo</b>`;
     }
-    
+     
     document.getElementById("final-feedback").textContent = feedback;
     document.getElementById("final-quote").innerHTML = quote;
-    
+     
     silentlySaveRecord();
 }
 
@@ -698,7 +698,7 @@ function silentlySaveRecord() {
 
     let historial = JSON.parse(localStorage.getItem("simulador_db")) || [];
     let yaExiste = historial.some(item => item.nombre === registro.nombre && item.puntos === registro.puntos && item.fecha === registro.fecha);
-    
+     
     if(!yaExiste) {
         historial.push(registro);
         localStorage.setItem("simulador_db", JSON.stringify(historial));
@@ -713,7 +713,7 @@ function saveReview() {
     }
 
     document.getElementById("rating-section").innerHTML = "<p style='color:#2563eb; font-weight:700; font-size:0.9rem;'>¡Gracias por calificar la experiencia! ❤️</p>";
-    
+     
     if(!document.getElementById("admin-panel").classList.contains("hidden")) {
         showDatabase();
     }
@@ -722,12 +722,12 @@ function saveReview() {
 function alternarBloqueLogin() {
     const loginBox = document.getElementById("admin-login");
     const adminPanel = document.getElementById("admin-panel");
-    
+     
     if (!adminPanel.classList.contains("hidden")) {
         cerrarAdmin();
         return;
     }
-    
+     
     loginBox.classList.toggle("hidden");
     if(!loginBox.classList.contains("hidden")) {
         document.getElementById("admin-user-input").focus();
@@ -738,7 +738,7 @@ function verificarCredenciales() {
     const userInput = document.getElementById("admin-user-input");
     const passInput = document.getElementById("admin-pass-input");
     const errorMsg = document.getElementById("admin-error-msg");
-    
+     
     if (userInput.value === AUTH_USER && passInput.value === AUTH_PASS) {
         errorMsg.classList.add("hidden");
         document.getElementById("admin-login").classList.add("hidden");
@@ -761,7 +761,7 @@ function cerrarAdmin() {
 /* NUEVA FUNCIÓN PARA ELIMINAR LOS REGISTROS CON CONFIRMACIÓN */
 function purgarBaseDeDatos() {
     const confirmacion = confirm("⚠️ ¿Estás completamente seguro de purgar la base de datos? Esto eliminará de forma irreversible todo el historial de los alumnos y profesores.");
-    
+     
     if (confirmacion) {
         localStorage.removeItem("simulador_db");
         showDatabase(); // Recarga la UI reflejando los cambios vacíos
@@ -772,7 +772,7 @@ function purgarBaseDeDatos() {
 function showDatabase() {
     let historial = JSON.parse(localStorage.getItem("simulador_db")) || [];
     let dbBox = document.getElementById("db-records");
-    
+     
     if(historial.length === 0) {
         dbBox.innerHTML = "No hay registros guardados en la base de datos local.";
         document.getElementById("m-total").textContent = "0";
@@ -793,7 +793,7 @@ function showDatabase() {
         if(item.rol === "Estudiante") totalEstudiantes++;
         if(item.rol === "Profesor") totalProfesores++;
         sumaPuntos += item.puntos;
-        
+         
         if(item.estrellas > 0) {
             sumaEstrellas += item.estrellas;
             registrosConEstrellas++;
@@ -812,16 +812,12 @@ function showDatabase() {
         let datosExtra = item.rol === "Estudiante" 
             ? `(${item.info1} | Carrera: ${item.info2})` 
             : `(Inst: ${item.info1} | Área: ${item.info2})`;
-            
+             
         let starsDisplay = item.estrellas > 0 ? "★".repeat(item.estrellas) + "☆".repeat(5-item.estrellas) : "Sin calificar ⏳";
-            
-        return `<div class="db-item">
-            📅 <b>${item.fecha}</b> | 👤 <b>[${item.rol}]</b> ${item.nombre} ${datosExtra}<br>
-            🎯 Puntuación: <b>${item.puntos}/100 pts</b> | ⭐ Valoración: <b>${starsDisplay}</b>
-        </div>`;
+             
+        return `<div class="db-item"><b>[${item.fecha}] ${item.rol}:</b> ${item.nombre} ${datosExtra} — 📈 Score: <b>${item.puntos} pts</b> | Valoración: ${starsDisplay}</div>`;
     }).join("");
 }
 </script>
-
 </body>
 </html>
