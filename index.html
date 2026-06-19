@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NUESTRO SIMULADOR</title>
+<title>SIMULADOR</title>
 <style>
 * {
     margin: 0;
@@ -302,7 +302,7 @@ h1 {
 <div class="game-box">
     <div class="header-container">
         <h1>SIMULADOR</h1>
-        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()" title="Acceso Administratrador">🔒</button>
+        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()" title="Acceso Administrador">🔒</button>
     </div>
     <p class="subtitle">Simulador</p>
 
@@ -445,7 +445,7 @@ const preguntasPorRol = {
         {
             q: "Te toca defender un proyecto complejo ante un jurado exigente. Sientes que los nervios te sabotean y olvidas una idea clave en plena exposición. ¿Cómo actúas?",
             options: [
-                { text: "Me detengo un momento, reconozco mis nervios ante el aula con tranquilidad and continúo explicando la idea con mis propias palabras.", points: 20 },
+                { text: "Me detengo un momento, reconozco mis nervios ante el aula con tranquilidad y continúo explicando la idea con mis propias palabras.", points: 20 },
                 { text: "Acelero el paso e improviso términos técnicos rebuscados para fingir seguridad absoluta ante el jurado.", points: 10 },
                 { text: "Me bloqueo por completo, pido disculpas de inmediato y le cedo la palabra a mi compañero por frustración.", points: 5 }
             ]
@@ -685,6 +685,26 @@ function setRating(rating) {
     document.getElementById("btn-save-review").disabled = false;
 }
 
+/* ==========================================
+   CONEXIÓN CON LA NUBE (GOOGLE SHEETS)
+   ========================================== */
+
+function enviarAGoogleSheets(registro) {
+    // URL conectada exitosamente:
+    const URL_MI_BASE_DATOS = "https://script.google.com/macros/s/AKfycbwUfaVrUpojKXDt63b247e3lz4TSVMeLZut09rKVozpATRX7KmhBCZASLl4D-d4uGg5/exec";
+
+    fetch(URL_MI_BASE_DATOS, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(registro)
+    })
+    .then(() => console.log("¡Datos sincronizados con éxito en la nube!"))
+    .catch(err => console.error("Error al enviar a la nube:", err));
+}
+
 function silentlySaveRecord() {
     let registro = {
         rol: userProfile.rol,
@@ -693,16 +713,20 @@ function silentlySaveRecord() {
         info2: userProfile.detalle2,
         puntos: globalScore,
         estrellas: selectedRating || 0,
-        fecha: new Date().toLocaleDateString()
+        fecha: new Date().toLocaleString()
     };
 
+    // Guardar copia local en el dispositivo (Para redundancia y el panel offline)
     let historial = JSON.parse(localStorage.getItem("simulador_db")) || [];
-    let yaExiste = historial.some(item => item.nombre === registro.nombre && item.puntos === registro.puntos && item.fecha === registro.fecha);
+    let yaExiste = historial.some(item => item.nombre === registro.nombre && item.puntos === registro.puntos);
      
     if(!yaExiste) {
         historial.push(registro);
         localStorage.setItem("simulador_db", JSON.stringify(historial));
     }
+
+    // Enviar a la base de datos de Google Sheets
+    enviarAGoogleSheets(registro);
 }
 
 function saveReview() {
@@ -710,6 +734,9 @@ function saveReview() {
     if(historial.length > 0) {
         historial[historial.length - 1].estrellas = selectedRating;
         localStorage.setItem("simulador_db", JSON.stringify(historial));
+
+        // Enviamos el registro actualizado de nuevo con la calificación real
+        enviarAGoogleSheets(historial[historial.length - 1]);
     }
 
     document.getElementById("rating-section").innerHTML = "<p style='color:#2563eb; font-weight:700; font-size:0.9rem;'>¡Gracias por calificar la experiencia! ❤️</p>";
@@ -758,9 +785,9 @@ function cerrarAdmin() {
     document.getElementById("admin-login").classList.add("hidden");
 }
 
-/* NUEVA FUNCIÓN PARA ELIMINAR LOS REGISTROS CON CONFIRMACIÓN */
+/* ELIMINAR LOS REGISTROS LOCALES CON CONFIRMACIÓN */
 function purgarBaseDeDatos() {
-    const confirmacion = confirm("⚠️ ¿Estás completamente seguro de purgar la base de datos? Esto eliminará de forma irreversible todo el historial de los alumnos y profesores.");
+    const confirmacion = confirm("⚠️ ¿Estás completamente seguro de purgar la base de datos local? Esto eliminará de forma irreversible el historial de este dispositivo (no afecta a Google Sheets).");
      
     if (confirmacion) {
         localStorage.removeItem("simulador_db");
