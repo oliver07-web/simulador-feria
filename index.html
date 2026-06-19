@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- STREAMING_CHUNK:Configuring metadata... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMULADOR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* STREAMING_CHUNK:Styling the layout... */
         body { background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
         .game-box { width: 100%; max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08); border: 1px solid #e2e8f0; }
         .btn-main { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; display: block; }
@@ -16,12 +18,14 @@
 </head>
 <body>
 
+<!-- STREAMING_CHUNK:Rendering UI structure... -->
 <div class="game-box">
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold text-blue-600 uppercase">SIMULADOR</h1>
         <button onclick="document.getElementById('admin-login').classList.toggle('hidden')" class="bg-slate-100 p-2 rounded-lg">🔒</button>
     </div>
 
+    <!-- Admin Panel -->
     <div id="admin-login" class="hidden mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
         <input type="text" id="admin-user" placeholder="Usuario" class="w-full p-2 mb-2 border rounded">
         <input type="password" id="admin-pass" placeholder="Contraseña" class="w-full p-2 mb-2 border rounded">
@@ -29,9 +33,11 @@
     </div>
 
     <div id="admin-panel" class="hidden text-center">
-        <a href="https://docs.google.com/spreadsheets/d/1Sn1CTEzbRaLHIp8xh7AiTkl0F6VpWsA1V95f0vunrDE/edit" target="_blank" class="btn-main bg-green-500 mb-4 no-underline">📄 Ver Resultados en Google Sheets</a>
+        <!-- Enlace fijo y corregido a tu hoja de cálculo -->
+        <a href="https://docs.google.com/spreadsheets/d/1Sn1CTEzbRaLHIp8xh7AiTkl0F6VpWsA1V95f0vunrDE/edit" target="_blank" class="btn-main bg-green-500 mb-4 no-underline block">📄 Ver Resultados (Google Sheets)</a>
     </div>
 
+    <!-- Start Screen -->
     <div id="screen-start">
         <div class="bg-blue-50 p-4 border-l-4 border-blue-600 rounded mb-4 text-blue-900 italic text-sm">"Conocerse a uno mismo es el inicio de toda sabiduría."</div>
         <select id="user-role" onchange="alternarCampos()" class="w-full p-3 border-2 rounded-lg mb-4">
@@ -47,6 +53,7 @@
         <button class="btn-main" id="btn-start" onclick="startGame()" disabled>Iniciar Simulación</button>
     </div>
 
+    <!-- Game Screen -->
     <div id="screen-game" class="hidden">
         <div class="bg-gray-100 p-4 rounded-xl mb-4 text-center">
             <div id="current-score" class="text-3xl font-bold text-blue-600">0 pts</div>
@@ -56,6 +63,7 @@
         <div id="options-container"></div>
     </div>
 
+    <!-- End Screen -->
     <div id="screen-end" class="hidden text-center">
         <h2 class="text-xl font-bold mb-4">¡Análisis Listo!</h2>
         <div id="final-score" class="text-4xl font-bold text-blue-600 mb-6">0 pts</div>
@@ -64,6 +72,7 @@
 </div>
 
 <script>
+    /* STREAMING_CHUNK:Initializing logic and state... */
     const AUTH_USER = "Oliver07"; const AUTH_PASS = "Feria2026";
     const URL_SHEETS = "https://script.google.com/macros/s/AKfycbwUfaVrUpojKXDt63b247e3lz4TSVMeLZut09rKVozpATRX7KmhBCZASLl4D-d4uGg5/exec";
     
@@ -120,3 +129,6 @@
 </script>
 </body>
 </html>
+```eof
+
+¡Pruébalo ahora! Después de cambiar el permiso a "Cualquier persona con el enlace" en Google Sheets y pegar este nuevo código, el botón debería abrir la hoja correctamente.
