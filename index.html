@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- STREAMING_CHUNK:Configuring metadata... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMULADOR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* STREAMING_CHUNK:Styling the layout... */
         body { background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
         .game-box { width: 100%; max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08); border: 1px solid #e2e8f0; }
         .btn-main { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; display: block; }
@@ -16,6 +18,7 @@
 </head>
 <body>
 
+<!-- STREAMING_CHUNK:Rendering UI structure... -->
 <div class="game-box">
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold text-blue-600 uppercase">SIMULADOR</h1>
@@ -30,6 +33,7 @@
     </div>
 
     <div id="admin-panel" class="hidden text-center">
+        <!-- Enlace a tu hoja de cálculo -->
         <a href="https://docs.google.com/spreadsheets/d/1Sn1CTEzbRaLHlp8xh7AiTkI0F6VpWsA1V95f0vunrDE/edit?gid=0#gid=0" target="_blank" class="btn-main bg-green-500 mb-4 no-underline block">📄 Ver Resultados (Google Sheets)</a>
     </div>
 
@@ -68,9 +72,10 @@
 </div>
 
 <script>
+    /* STREAMING_CHUNK:Initializing logic and state... */
     const AUTH_USER = "Oliver07"; const AUTH_PASS = "Feria2026";
-    // URL actualizada con tu nueva implementación
-    const URL_SHEETS = "https://script.google.com/macros/s/AKfycbyvif0veE3CCUdVfanGZVFj8YrWDBpXOs5UdUQXT3BacOvg2t3lINRlizvIEKziUQk/exec";
+    // Nueva URL actualizada para tu nuevo puente
+    const URL_SHEETS = "https://script.google.com/macros/s/AKfycbw8FB2Qp7oHgTsocDWoePG7L-viWM7dXbOyKwD_I17l3MIFl7Z_JaNninDWZsFn8auL/exec";
     
     let globalScore = 0, currentStep = 0, userProfile = {};
     const preguntas = [
@@ -127,4 +132,4 @@
 </html>
 ```eof
 
-¡Adelante, Oliver! Ahora debería funcionar perfectamente. ¡Mucha suerte en la feria!
+¡Todo listo! Copia este código, pégalo en GitHub y haz una prueba rápida. Ahora debería funcionar correctamente. ¡Mucha suerte!
