@@ -1,102 +1,146 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- STREAMING_CHUNK:Configuring metadata... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMULADOR</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>NUESTRO SIMULADOR</title>
     <style>
-        /* STREAMING_CHUNK:Styling the layout... */
-        body { background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
-        .game-box { width: 100%; max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08); border: 1px solid #e2e8f0; }
-        .btn-main { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; display: block; }
-        .decision-btn { width: 100%; padding: 12px; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: left; margin-bottom: 10px; transition: 0.2s; }
-        .decision-btn:hover { background: #f1f5f9; border-color: #2563eb; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f0f4f8; color: #1e293b; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 12px; }
+        .game-box { width: 100%; max-width: 600px; background: #ffffff; border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08); border: 1px solid #e2e8f0; position: relative; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        h1 { color: #2563eb; font-size: 1.6rem; font-weight: 800; text-transform: uppercase; flex-grow: 1; text-align: center; }
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px; }
+        .quote-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-style: italic; color: #1e40af; font-size: 0.9rem; line-height: 1.4; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #334155; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; transition: 0.2s; }
+        .form-group input:focus { outline: none; border-color: #2563eb; background: #f8fafc; }
+        .score-card { background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 18px; text-align: center; }
+        .score-display { font-size: 1.8rem; font-weight: 800; color: #2563eb; margin: 2px 0; }
+        .progress-container { width: 100%; background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden; margin-top: 4px; }
+        .progress-bar { height: 100%; width: 0%; background: #2563eb; transition: width 0.4s ease-out; }
+        .scenario-card { background: #f8fafc; padding: 16px; border-radius: 14px; margin-bottom: 16px; border: 1px solid #e2e8f0; }
+        .day-tag { background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin-bottom: 8px; }
+        .description { font-size: 1rem; line-height: 1.4; color: #334155; font-weight: 600; }
+        .decision-btn { width: 100%; padding: 12px; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: left; font-size: 0.9rem; margin-bottom: 10px; }
+        .decision-btn:hover { background: #f1f5f9; border-color: #2563eb; color: #2563eb; }
+        .btn-main { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; text-align: center; }
+        .btn-main:disabled { background: #cbd5e1; cursor: not-allowed; }
+        .rating-area { margin: 15px 0; display: flex; justify-content: center; gap: 8px; }
+        .star { font-size: 2.2rem; cursor: pointer; color: #cbd5e1; }
+        .star.active { color: #eab308; }
+        .admin-login-box { background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 12px; padding: 16px; margin-bottom: 15px; }
         .hidden { display: none; }
+        .metrics-container { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 12px; margin-bottom: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.8rem; }
+        .db-box { background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; max-height: 180px; overflow-y: auto; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<!-- STREAMING_CHUNK:Rendering UI structure... -->
 <div class="game-box">
-    <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold text-blue-600 uppercase">SIMULADOR</h1>
-        <button onclick="document.getElementById('admin-login').classList.toggle('hidden')" class="bg-slate-100 p-2 rounded-lg">🔒</button>
+    <div class="header-container">
+        <h1>SIMULADOR</h1>
+        <button class="admin-trigger-btn" onclick="alternarBloqueLogin()">🔒</button>
+    </div>
+    
+    <div id="admin-login" class="admin-login-box hidden">
+        <input type="text" id="admin-user-input" placeholder="Usuario" class="login-input" style="width:100%; padding:8px; margin-bottom:5px;">
+        <input type="password" id="admin-pass-input" placeholder="Contraseña" class="login-input" style="width:100%; padding:8px; margin-bottom:10px;">
+        <button onclick="verificarCredenciales()" class="btn-main">Autenticar</button>
     </div>
 
-    <!-- Admin Panel -->
-    <div id="admin-login" class="hidden mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-        <input type="text" id="admin-user" placeholder="Usuario" class="w-full p-2 mb-2 border rounded">
-        <input type="password" id="admin-pass" placeholder="Contraseña" class="w-full p-2 mb-2 border rounded">
-        <button onclick="verificarCredenciales()" class="w-full bg-blue-600 text-white p-2 rounded">Autenticar</button>
+    <div id="admin-panel" class="hidden" style="margin-bottom: 20px; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <p style="font-weight:700; font-size:0.8rem;">PANEL TÉCNICO</p>
+            <div style="display: flex; gap: 4px;">
+                <button onclick="exportarCSV()" style="background:#059669; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.7rem; cursor:pointer;">💾 CSV</button>
+                <button onclick="purgarBaseDeDatos()" style="background:#dc2626; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.7rem; cursor:pointer;">🗑️ Purgar</button>
+            </div>
+        </div>
+        <div class="metrics-container" id="metrics-view"></div>
+        <div class="db-box" id="db-records"></div>
     </div>
 
-    <div id="admin-panel" class="hidden text-center">
-        <!-- Enlace a tu hoja de cálculo -->
-        <a href="https://docs.google.com/spreadsheets/d/1Sn1CTEzbRaLHlp8xh7AiTkI0F6VpWsA1V95f0vunrDE/edit?gid=0#gid=0" target="_blank" class="btn-main bg-green-500 mb-4 no-underline block">📄 Ver Resultados (Google Sheets)</a>
-    </div>
-
-    <!-- Start Screen -->
     <div id="screen-start">
-        <div class="bg-blue-50 p-4 border-l-4 border-blue-600 rounded mb-4 text-blue-900 italic text-sm">"Conocerse a uno mismo es el inicio de toda sabiduría."</div>
-        <select id="user-role" onchange="alternarCampos()" class="w-full p-3 border-2 rounded-lg mb-4">
-            <option value="" disabled selected>Elige una opción</option>
+        <div class="quote-box">"Conocerse a uno mismo es el inicio de toda sabiduría."</div>
+        <select id="user-role" onchange="alternarCamposFormulario()" class="form-group" style="padding:10px; width:100%; border-radius:10px;">
+            <option value="" disabled selected>Elige tu Rol</option>
             <option value="estudiante">🎓 Estudiante</option>
             <option value="profesor">👨‍🏫 Profesor</option>
         </select>
         <div id="fields-estudiante" class="hidden">
-            <input type="text" id="est-name" placeholder="Nombre" class="w-full p-3 border rounded-lg mb-2">
-            <input type="text" id="est-semestre" placeholder="Semestre" class="w-full p-3 border rounded-lg mb-2">
-            <input type="text" id="est-carrera" placeholder="Carrera" class="w-full p-3 border rounded-lg mb-4">
+            <input type="text" id="est-name" placeholder="Nombre" class="form-group" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:10px; margin-bottom:5px;">
+            <input type="text" id="est-semestre" placeholder="Semestre" class="form-group" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:10px; margin-bottom:5px;">
+            <input type="text" id="est-carrera" placeholder="Carrera" class="form-group" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:10px; margin-bottom:5px;">
+        </div>
+        <div id="fields-profesor" class="hidden">
+            <input type="text" id="prof-name" placeholder="Nombre" class="form-group" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:10px; margin-bottom:5px;">
+            <input type="text" id="prof-institucion" placeholder="Institución" class="form-group" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:10px; margin-bottom:5px;">
+            <input type="text" id="prof-area" placeholder="Área" class="form-group" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:10px; margin-bottom:5px;">
         </div>
         <button class="btn-main" id="btn-start" onclick="startGame()" disabled>Iniciar Simulación</button>
     </div>
 
-    <!-- Game Screen -->
     <div id="screen-game" class="hidden">
-        <div class="bg-gray-100 p-4 rounded-xl mb-4 text-center">
-            <div id="current-score" class="text-3xl font-bold text-blue-600">0 pts</div>
-            <div class="w-full bg-gray-300 h-2 rounded-full mt-2"><div id="main-progress" class="h-full bg-blue-600 rounded-full" style="width:0%"></div></div>
+        <div class="score-card">
+            <div id="current-score" class="score-display">0</div>
+            <div class="progress-container"><div id="main-progress" class="progress-bar"></div></div>
         </div>
-        <p class="text-lg font-semibold mb-4" id="scenario-text"></p>
+        <div class="scenario-card">
+            <div class="day-tag" id="game-step"></div>
+            <p class="description" id="scenario-text"></p>
+        </div>
         <div id="options-container"></div>
     </div>
 
-    <!-- End Screen -->
-    <div id="screen-end" class="hidden text-center">
-        <h2 class="text-xl font-bold mb-4">¡Análisis Listo!</h2>
-        <div id="final-score" class="text-4xl font-bold text-blue-600 mb-6">0 pts</div>
-        <button class="btn-main" onclick="location.reload()">Reiniciar</button>
+    <div id="screen-end" class="hidden" style="text-align:center;">
+        <h2 id="end-greeting">¡Análisis Listo!</h2>
+        <div class="score-display" id="final-score" style="font-size:3rem;">0</div>
+        <p id="final-feedback" style="margin-bottom:15px; font-size:0.9rem;"></p>
+        <div id="rating-section">
+            <p>Califica la experiencia:</p>
+            <div class="rating-area">
+                <span class="star" onclick="setRating(1)">★</span><span class="star" onclick="setRating(2)">★</span><span class="star" onclick="setRating(3)">★</span><span class="star" onclick="setRating(4)">★</span><span class="star" onclick="setRating(5)">★</span>
+            </div>
+            <button class="btn-main" id="btn-save-review" onclick="saveReview()" disabled>Guardar</button>
+        </div>
+        <button class="btn-main" onclick="location.reload()" style="background:#64748b; margin-top:20px;">Reiniciar</button>
     </div>
 </div>
 
 <script>
-    /* STREAMING_CHUNK:Initializing logic and state... */
     const AUTH_USER = "Oliver07"; const AUTH_PASS = "Feria2026";
-    // Nueva URL actualizada para tu nuevo puente
     const URL_SHEETS = "https://script.google.com/macros/s/AKfycbw8FB2Qp7oHgTsocDWoePG7L-viWM7dXbOyKwD_I17l3MIFl7Z_JaNninDWZsFn8auL/exec";
-    
-    let globalScore = 0, currentStep = 0, userProfile = {};
-    const preguntas = [
-        { q: "Nervios en examen. ¿Qué haces?", options: [{ text: "Respiro, acepto y continúo", points: 20 }, { text: "Acelero y finjo", points: 10 }, { text: "Bloqueo", points: 5 }] },
-        { q: "Mucho estrés. ¿Qué haces?", options: [{ text: "Descanso", points: 20 }, { text: "Redes sociales", points: 10 }, { text: "Sigo sin parar", points: 0 }] }
-    ];
+    let globalScore = 0, currentStep = 0, userProfile = {}, selectedRating = 0, situaciones = [];
 
-    function alternarCampos() { document.getElementById("fields-estudiante").classList.remove("hidden"); document.getElementById("btn-start").disabled = false; }
+    const preguntasPorRol = {
+        estudiante: [{q: "Nervios en examen. ¿Qué haces?", options: [{text: "Respiro y continúo", points: 20}, {text: "Fingo seguridad", points: 10}, {text: "Bloqueo", points: 0}]}, {q: "Mucho estrés. ¿Qué haces?", options: [{text: "Descanso", points: 20}, {text: "Redes", points: 10}, {text: "Sigo sin parar", points: 0}]}],
+        profesor: [{q: "Error en clase. ¿Qué haces?", options: [{text: "Admito y corrijo", points: 20}, {text: "Desvío atención", points: 10}, {text: "Me molesto", points: 0}]}, {q: "Carga laboral. ¿Qué haces?", options: [{text: "Pongo límites", points: 20}, {text: "Sigo trabajando", points: 0}]}]
+    };
+
+    function alternarCamposFormulario() {
+        const rol = document.getElementById("user-role").value;
+        document.getElementById("fields-estudiante").classList.toggle("hidden", rol !== "estudiante");
+        document.getElementById("fields-profesor").classList.toggle("hidden", rol !== "profesor");
+        document.getElementById("btn-start").disabled = false;
+    }
 
     function startGame() {
-        userProfile = { rol: document.getElementById("user-role").value, nombre: document.getElementById("est-name").value, info1: document.getElementById("est-semestre").value, info2: document.getElementById("est-carrera").value };
+        const rol = document.getElementById("user-role").value;
+        situaciones = preguntasPorRol[rol];
+        userProfile = rol === "estudiante" ? {rol: "Estudiante", nombre: document.getElementById("est-name").value, info1: document.getElementById("est-semestre").value, info2: document.getElementById("est-carrera").value} : {rol: "Profesor", nombre: document.getElementById("prof-name").value, info1: document.getElementById("prof-institucion").value, info2: document.getElementById("prof-area").value};
         document.getElementById("screen-start").classList.add("hidden");
         document.getElementById("screen-game").classList.remove("hidden");
         renderStep();
     }
 
     function renderStep() {
-        if(currentStep >= preguntas.length) return endGame();
-        let sit = preguntas[currentStep];
+        if(currentStep >= situaciones.length) return endGame();
+        let sit = situaciones[currentStep];
         document.getElementById("scenario-text").textContent = sit.q;
-        document.getElementById("main-progress").style.width = (currentStep / preguntas.length) * 100 + "%";
+        document.getElementById("game-step").textContent = `Pregunta ${currentStep+1}`;
+        document.getElementById("main-progress").style.width = (currentStep / situaciones.length) * 100 + "%";
         let container = document.getElementById("options-container");
         container.innerHTML = "";
         sit.options.forEach(opt => {
@@ -112,24 +156,61 @@
         document.getElementById("screen-game").classList.add("hidden");
         document.getElementById("screen-end").classList.remove("hidden");
         document.getElementById("final-score").textContent = globalScore + " pts";
-        
-        fetch(URL_SHEETS, { 
-            method: "POST", 
-            mode: "no-cors", 
-            headers: { "Content-Type": "application/json" }, 
-            body: JSON.stringify({ ...userProfile, puntos: globalScore, fecha: new Date().toLocaleString() }) 
-        });
+        silentlySaveRecord();
     }
 
+    function silentlySaveRecord() {
+        let registro = {...userProfile, puntos: globalScore, estrellas: selectedRating || 0, fecha: new Date().toLocaleDateString()};
+        
+        // 1. Guardar Local
+        let historial = JSON.parse(localStorage.getItem("simulador_db")) || [];
+        historial.push(registro);
+        localStorage.setItem("simulador_db", JSON.stringify(historial));
+
+        // 2. Enviar a Google Sheets
+        fetch(URL_SHEETS, { method: "POST", mode: "no-cors", headers: {"Content-Type": "application/json"}, body: JSON.stringify(registro) });
+    }
+
+    function setRating(r) {
+        selectedRating = r;
+        document.querySelectorAll(".star").forEach((s, i) => s.classList.toggle("active", i < r));
+        document.getElementById("btn-save-review").disabled = false;
+    }
+
+    function saveReview() {
+        // Actualizar rating en local (último registro)
+        let hist = JSON.parse(localStorage.getItem("simulador_db"));
+        hist[hist.length-1].estrellas = selectedRating;
+        localStorage.setItem("simulador_db", JSON.stringify(hist));
+        alert("¡Gracias por tu feedback!");
+    }
+
+    function purgarBaseDeDatos() {
+        if(confirm("¿Seguro de purgar la DB?")) { localStorage.removeItem("simulador_db"); location.reload(); }
+    }
+
+    function exportarCSV() {
+        let h = JSON.parse(localStorage.getItem("simulador_db")) || [];
+        let csv = "Fecha,Rol,Nombre,Detalle1,Detalle2,Puntos,Estrellas\n" + h.map(i => `${i.fecha},${i.rol},${i.nombre},${i.info1},${i.info2},${i.puntos},${i.estrellas}`).join("\n");
+        let blob = new Blob([csv], {type: 'text/csv'});
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement("a"); a.href = url; a.download = "registros_simulador.csv"; a.click();
+    }
+
+    function alternarBloqueLogin() { document.getElementById("admin-login").classList.toggle("hidden"); }
     function verificarCredenciales() {
-        if(document.getElementById("admin-user").value === AUTH_USER && document.getElementById("admin-pass").value === AUTH_PASS) {
+        if(document.getElementById("admin-user-input").value === AUTH_USER && document.getElementById("admin-pass-input").value === AUTH_PASS) {
             document.getElementById("admin-panel").classList.remove("hidden");
             document.getElementById("admin-login").classList.add("hidden");
+            renderAdmin();
         }
+    }
+
+    function renderAdmin() {
+        let h = JSON.parse(localStorage.getItem("simulador_db")) || [];
+        document.getElementById("metrics-view").innerHTML = `<div>Registros: <b>${h.length}</b></div><div>Promedio: <b>${h.length ? (h.reduce((a,b)=>a+b.puntos,0)/h.length).toFixed(1) : 0} pts</b></div>`;
+        document.getElementById("db-records").innerHTML = h.map(i => `<div style="border-bottom:1px solid #ccc; padding:4px;">${i.nombre} - ${i.puntos} pts - ★${i.estrellas}</div>`).join("");
     }
 </script>
 </body>
 </html>
-```eof
-
-¡Todo listo! Copia este código, pégalo en GitHub y haz una prueba rápida. Ahora debería funcionar correctamente. ¡Mucha suerte!
